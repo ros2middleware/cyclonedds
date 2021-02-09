@@ -1749,7 +1749,7 @@ error_or_nochange:
   if (rhc->reader)
   {
     if (notify_data_available)
-      dds_reader_data_available_cb (rhc->reader);
+      dds_reader_data_available_cb (rhc->reader, inst->latest->next->sample);
     if (cb_data.raw_status_id >= 0)
       dds_reader_status_cb (&rhc->reader->m_entity, &cb_data);
   }
@@ -1800,7 +1800,7 @@ static void dds_rhc_default_unregister_wr (struct ddsi_rhc * __restrict rhc_comm
   ddsrt_mutex_unlock (&rhc->lock);
 
   if (rhc->reader && notify_data_available)
-    dds_reader_data_available_cb (rhc->reader);
+    dds_reader_data_available_cb(rhc->reader, inst->latest->next->sample);
 }
 
 static void dds_rhc_default_relinquish_ownership (struct ddsi_rhc * __restrict rhc_common, const uint64_t wr_iid)
@@ -1924,6 +1924,7 @@ static void set_sample_info (dds_sample_info_t *si, const struct rhc_instance *i
   si->absolute_generation_rank = (inst->disposed_gen + inst->no_writers_gen) - (sample->disposed_gen + sample->no_writers_gen);
   si->valid_data = true;
   si->source_timestamp = sample->sample->timestamp.v;
+  si->reception_timestamp = sample->sample->reception_timestamp.v;
 }
 
 static void set_sample_info_invsample (dds_sample_info_t *si, const struct rhc_instance *inst)

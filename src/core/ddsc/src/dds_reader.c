@@ -215,7 +215,8 @@ static void data_avail_cb_trigger_waitsets (dds_entity *rd, uint32_t signal)
   }
 }
 
-void dds_reader_data_available_cb (struct dds_reader *rd)
+void dds_reader_data_available_cb(struct dds_reader *rd,
+                                  struct ddsi_serdata *sample)
 {
   /* DATA_AVAILABLE is special in two ways: firstly, it should first try
      DATA_ON_READERS on the line of ancestors, and if not consumed set the
@@ -231,6 +232,7 @@ void dds_reader_data_available_cb (struct dds_reader *rd)
     signal = data_avail_cb_set_status (&rd->m_entity, status_and_mask);
   else
   {
+    sample->reception_timestamp.v = dds_time();
     // "lock" listener object so we can look at "lst" without holding m_observers_lock
     data_avail_cb_enter_listener_exclusive_access (&rd->m_entity);
     if (lst->on_data_on_readers)

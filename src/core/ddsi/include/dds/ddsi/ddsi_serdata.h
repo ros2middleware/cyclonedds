@@ -53,6 +53,7 @@ struct ddsi_serdata {
 
   /* these get set by generic code after creating the serdata */
   ddsrt_wctime_t timestamp;
+  ddsrt_wctime_t reception_timestamp;
   uint32_t statusinfo;
 
   /* FIXME: can I get rid of this one? */
