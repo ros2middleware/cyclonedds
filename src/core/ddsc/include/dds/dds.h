@@ -174,7 +174,6 @@ typedef struct dds_sample_info
   bool valid_data;
   /** timestamp of a data instance when it is written */
   dds_time_t source_timestamp;
-  dds_time_t reception_timestamp;
   /** handle to the data instance */
   dds_instance_handle_t instance_handle;
   /** handle to the publisher */

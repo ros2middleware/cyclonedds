@@ -98,8 +98,7 @@ DDS_INLINE_EXPORT inline uint32_t dds_rhc_lock_samples (struct dds_rhc *rhc) {
   return rhc->common.ops->lock_samples (rhc);
 }
 
-DDS_EXPORT void dds_reader_data_available_cb(struct dds_reader *rd,
-                                             struct ddsi_serdata *sample);
+DDS_EXPORT void dds_reader_data_available_cb (struct dds_reader *rd);
 
 #if defined (__cplusplus)
 }
